@@ -42,4 +42,11 @@ public class JobServiceImpl implements IJobService {
         return jobRepository.findJobsByQLOrLCOrPLanguage(programmingLanguageId, qualificationId, cityId,pageable);
 
     }
+    
+    @Override
+    public Page<Job> findJobsBySearchBar(String name, Double salary, Integer experience, String cityId, Pageabe pageable)
+    {
+        return jobRepository.findJobsBySearchBar(name, salary, experience, cityId, Pageabe pageable);
+
+    }
 }
