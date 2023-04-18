@@ -33,6 +33,36 @@ public class JobController {
             return new ResponseEntity<>(jobs, HttpStatus.OK);
         }
     }
+    
+    @PostMapping("/searchJobByNSEC")
+	public ResponseEntity<Map<String, Object>> jobSearchByName(final Model model, final HttpServletRequest request,
+			final HttpServletResponse response, @PageableDefault Pageable pageable,) {
+		List<Job> listJob = (List<Job>) jobService.findALL();
+
+		// Lấy dữ liệu từ form tìm kiếm
+		String name = request.getParameter("jobName");
+		Double salary = Double.valueOf(0);
+		try {
+			salary = Double.parseDouble(request.getParameter("jobSalary"));
+		} catch (Exception e) {
+		}
+		Integer exp = 0;
+		try {
+			exp = Integer.parseInt(request.getParameter("jobExperience"));
+		} catch (Exception e) {
+		}
+		String cityName = request.getParameter("jobCity");
+
+        Page<Job> jobs;
+        jobs= jobService.findJobsBySearchBar(name, salary, exp, cityName, pageable);
+        
+		Map<String, Object> jsonResult = new HashMap<String, Object>();
+		//data có thể dùng trên view
+		jsonResult.put("listJob", jobs);
+
+		return ResponseEntity.ok(jsonResult);
+	}
+    
     @GetMapping("/listJob")
     public ResponseEntity<Page<Job>> listJob(@PageableDefault Pageable pageable, Optional<String >name){
         Page<Job>jobs;
