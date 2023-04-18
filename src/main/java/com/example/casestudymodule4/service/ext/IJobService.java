@@ -11,4 +11,10 @@ public interface IJobService extends ICoreService<Job>
     Page<Job> findJobsByQLOrLCOrPLanguage(Long programmingLanguageId,
                                           String qualificationName,
                                           String cityName, Pageable pageable);
+                                          
+    Page<Job> findJobsBySearchBar(String name,
+                                  Double salary,
+                                  Integer experience,
+                                  String cityName,
+                                  Pageabe pageable);
 }
